@@ -10,9 +10,9 @@ RUN git clone https://github.com/hiyouga/LLaMA-Factory.git
 # Change working directory to the cloned repository
 WORKDIR /workspace/LLaMA-Factory
 
-# Install LLaMA-Factory dependencies using the pip from the pre-configured venv
-# The base image creates a venv at /venv/main with the specified Python version (3.13)
-RUN /venv/main/bin/pip install -e ".[torch,metrics,bitsandbytes]"
+# Install LLaMA-Factory dependencies and clear pip cache in the same layer
+RUN /venv/main/bin/pip install -e ".[torch,metrics,bitsandbytes]" && \
+    /venv/main/bin/pip cache purge
 
 # Optional: Set the default working directory back to /workspace if desired
 # WORKDIR /workspace 
